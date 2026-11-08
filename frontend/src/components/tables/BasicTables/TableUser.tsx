@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "../../ui/table";
 import FormEdit from "../../form/form-user/FormEdit";
+import { UPLOAD_URL } from "../../../services/config";
 
 // Tipe untuk User
 interface User {
@@ -25,8 +26,6 @@ interface TableUserProps {
   onDelete: (id: number) => void;
   onEdit: () => void;
 }
-
-const IMAGE_URL = "http://103.127.97.79:5000/uploads/";
 
 export default function TableUser({ data = [], onDelete, onEdit }: TableUserProps) {
   const { isOpen, openModal, closeModal } = useModal();
@@ -99,7 +98,7 @@ export default function TableUser({ data = [], onDelete, onEdit }: TableUserProp
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                     {item.image && (
                       <img
-                        src={`${IMAGE_URL}${item.image}`}
+                        src={`${UPLOAD_URL}${item.image}`}
                         alt="user"
                         className="w-16 h-16 mt-2 rounded-full object-cover"
                       />

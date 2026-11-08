@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ComponentCard from "../../common/ComponentCard";
+import { API_URL } from "../../../services/config";
 
 
 export default function QrInput() {
@@ -15,7 +16,7 @@ export default function QrInput() {
   useEffect(() => {
     const fetchQR = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/qr");
+        const response = await axios.get(`${API_URL}/qr`);
         if (response.data.qr !== null) {
           setQrCode(response.data.qr);
           setStatus("scan");

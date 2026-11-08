@@ -6,32 +6,21 @@ import BalasOtomatis from "../models/BalasOtomatis.js";
 import JadwalPesan from "../models/JadwalPesan.js";
 import User from "../models/User.js";
 import ListRole from "../models/ListRole.js";
-import fs from 'fs';
 import mysql2 from 'mysql2';
-import path from "path";
-import { fileURLToPath } from "url";
+import env from "./env.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const database = new Sequelize("your DB", "your user", "your Password", {
-  host: "your host",
-  port: 3306,
-  dialect: "mysql",
-  dialectModule: mysql2,
-  logging: false, // Matikan logging jika tidak perlu
-});
-// const database = new Sequelize("db_whatsapp", "root", "", {
-//   host: "127.0.0.1",
-//   port: 3306,
-//   dialect: "mysql",
-//   // dialectOptions: {
-//   //   ssl: {
-//   //     ca: fs.readFileSync(path.join(__dirname, "../SSL/ca.pem")).toString(),
-//   //   }
-//   // },
-//   logging: false, // Matikan logging jika tidak perlu
-// });
+const database = new Sequelize(
+  env.database.name,
+  env.database.user,
+  env.database.pass,
+  {
+    host: env.database.host,
+    port: env.database.port,
+    dialect: env.database.dialect,
+    dialectModule: mysql2,
+    logging: false, // Matikan logging jika tidak perlu
+  }
+);
 
 const models = {
   Kategori: Kategori(database),

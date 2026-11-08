@@ -1,11 +1,8 @@
 import { models } from "../config/database.js";
 import bcrypt from 'bcrypt';
 import fs from 'fs';
-import { fileURLToPath } from 'url';
-import path, { dirname, join }  from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import path from 'path';
+import env from '../config/env.js';
 
 
 export const getUser = async (req, res) => {
@@ -80,7 +77,7 @@ export const deleteUser = async (req, res) => {
         const { id } = req.params;
         const user = await models.User.findByPk(id);
         if (user.image) {
-            const imagePath = path.join(__dirname, "../uploads", user.image);
+            const imagePath = path.join(env.uploadDir, user.image);
             fs.existsSync(imagePath) && fs.unlinkSync(imagePath);
           }
         await models.User.destroy({ where: { id } });

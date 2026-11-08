@@ -7,13 +7,16 @@ import messageService from "./messageService.js";
 import { Boom } from '@hapi/boom';
 import readline from 'readline';
 import path from 'path';
+import env from "../config/env.js";
 
 let sock;
 let dataQR = null;
 let user = null
 
 const startWhatsApp = async () => {
-  const { state, saveCreds } = await useMultiFileAuthState("/tmp/sessions");
+  const { state, saveCreds } = await useMultiFileAuthState(
+    env.whatsappSessionDir
+  );
 
   const { version } = await fetchLatestBaileysVersion();
 
@@ -104,7 +107,7 @@ const startWhatsApp = async () => {
     
       if (reason === DisconnectReason.loggedOut) {
         console.log('❌ Kamu telah logout dari perangkat.');
-        fs.rmSync("/tmp/sessions", { recursive: true, force: true });
+        fs.rmSync(env.whatsappSessionDir, { recursive: true, force: true });
     
         // 🔄 Re-run untuk munculkan QR baru setelah logout
         console.log('📱 Silakan scan ulang QR untuk login kembali...');

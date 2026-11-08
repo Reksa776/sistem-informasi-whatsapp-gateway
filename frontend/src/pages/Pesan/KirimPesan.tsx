@@ -5,6 +5,7 @@ import ReactLoading from "react-loading";
 import axios from "axios";
 import Label from "../../components/form/Label";
 import { getKontak } from "../../services/api";
+import { API_BASE_URL } from "../../services/config";
 import Swal from "sweetalert2";
 
 interface Kontak {
@@ -41,7 +42,7 @@ const token = localStorage.getItem("token") ?? "";
 
     try {
       setLoading("loading")
-      await axios.post("http://103.127.97.79:5000/api/sending", formData, {
+      await axios.post(`${API_BASE_URL}/sending`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMessage("");

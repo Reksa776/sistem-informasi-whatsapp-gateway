@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
+import { API_URL } from '../../services/config';
 
 // Tipe data dari JWT payload (ubah sesuai payload aslimu)
 interface JwtPayload {
@@ -22,7 +23,7 @@ export const ProtectedRoute = ({ children, role }: ProtectedRouteProps) => {
   useEffect(() => {
     if (token) {
       axios
-        .post('http://103.127.97.79:5000/login/protected', {}, {
+        .post(`${API_URL}/login/protected`, {}, {
           headers: { Authorization: token },
         })
         .then(() => setIsAuthenticated(true))

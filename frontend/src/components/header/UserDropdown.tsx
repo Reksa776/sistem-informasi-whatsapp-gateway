@@ -3,7 +3,7 @@ import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { Link } from "react-router";
 import { jwtDecode } from "jwt-decode";
-const IMAGE_URL = "http://103.127.97.79:5000/uploads/";
+import { UPLOAD_URL } from "../../services/config";
 
 interface MyJwtPayload {
   email?: string;
@@ -34,7 +34,7 @@ export default function UserDropdown() {
         className="flex items-center text-gray-700 dropdown-toggle dark:text-gray-400"
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <img src={`${IMAGE_URL}${data.image}`} alt="User" />
+          <img src={`${UPLOAD_URL}${data.image}`} alt="User" />
         </span>
 
         <span className="block mr-1 font-medium text-theme-sm">{data.email}</span>

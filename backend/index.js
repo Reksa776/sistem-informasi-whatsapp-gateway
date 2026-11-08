@@ -3,7 +3,7 @@ import cors from "cors";
 import { parse } from "url";
 import bodyParser from "body-parser";
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
+import env from "./config/env.js";
 import database from "./config/database.js";
 import kategoriRoutes from "./routes/kategoriRoutes.js";
 import kontakRoutes from "./routes/kontakRoutes.js";
@@ -21,13 +21,12 @@ import { Server } from "socket.io";
 import messagesRoutes from "./routes/messagesRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import sendRoutes from "./routes/sendRoutes.js";
-dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = env.port;
 
-app.use("/uploads", express.static("uploads"));
-app.use(cors());
+app.use("/uploads", express.static(env.uploadDir));
+app.use(cors({ origin: env.corsOrigin }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -51,7 +50,7 @@ app.use("/api", kontakRoutes);
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:4000", // ganti kalau frontend beda port
+    origin: env.corsOrigin,
     methods: ["GET", "POST"],
   },
 });
@@ -62,7 +61,9 @@ database.sync()
   .then(() => {
     console.log("Database connected!");
     startWhatsApp();
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    app.listen(PORT, () =>
+      console.log(`Server running on port ${PORT} (${env.nodeEnv})`)
+    );
   })
   .catch((err) => console.log("Database connection error:", err));
 

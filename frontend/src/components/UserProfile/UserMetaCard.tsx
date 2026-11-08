@@ -7,9 +7,8 @@ import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { resetUserPassword } from "../../services/api"; // ✅ hanya ini
+import { UPLOAD_URL } from "../../services/config";
 import ComponentCard from "../common/ComponentCard";
-
-const IMAGE_URL = "http://localhost:5000/uploads/";
 
 interface UserToken {
   id: string;
@@ -44,7 +43,7 @@ export default function UserMetaCard() {
         <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex flex-col items-center w-full gap-6 xl:flex-row">
             <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-              <img src={`${IMAGE_URL}${data.image}`} alt="user" />
+              <img src={`${UPLOAD_URL}${data.image}`} alt="user" />
             </div>
             <div className="order-3 xl:order-2">
               <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">

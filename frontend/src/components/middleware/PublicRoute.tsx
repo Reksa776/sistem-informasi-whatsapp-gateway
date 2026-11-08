@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../../services/config';
 
 import { ReactNode } from 'react';
 
@@ -15,7 +16,7 @@ export const PublicRoute = ({ children }: PublicRouteProps) => {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .post('http://103.127.97.79:5000/login/protected', {},{
+        .post(`${API_URL}/login/protected`, {},{
           headers: { Authorization: token },
         })
         .then(() => setIsAuthenticated(true))

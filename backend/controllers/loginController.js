@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { models } from "../config/database.js";
+import env from "../config/env.js";
 
 export const loginAuth = async (req, res) => {
     try {
@@ -22,7 +23,7 @@ export const loginAuth = async (req, res) => {
 
             return res.status(401).json({ msg: "Password salah" });
         }
-        const expiresIn = 60 * 60 * 24; 
+        const expiresIn = env.jwt.expiresIn;
 
         const payload = {
             id: user.id,
@@ -30,14 +31,14 @@ export const loginAuth = async (req, res) => {
             role: user.role,
             image: user.image
         }
-        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+        const token = jwt.sign(payload, env.jwt.secret, {
             expiresIn: expiresIn
         });
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false, // true jika HTTPS
-            sameSite: 'Lax',
-            maxAge: 3600000
+            secure: env.cookie.secure, // true jika HTTPS
+            sameSite: env.cookie.sameSite,
+            maxAge: env.cookie.maxAgeMs
         });
         return res.status(201).json({ payload,token });
     } catch (error) {
